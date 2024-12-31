@@ -40,6 +40,7 @@ static void scanfile(){
 // Open up the input file and call scanfile to scan the tokens in it. 
 
 void main(int argc, char *argv[]){
+  struct ASTnode *n;
   if (argc != 2)
     usage(argv[0]);
 
@@ -50,6 +51,9 @@ void main(int argc, char *argv[]){
     exit(1);
   }
 
-  scanfile();
+  // scanfile();
+  scan(&Token);                   // Get the first token from the input 
+  n = binexpr();                  // Parse the expression in the file 
+  printf("%d\n",interpretAST(n)); // Calculate the final result
   exit(0);
 }
