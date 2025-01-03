@@ -6,7 +6,7 @@
 
 // Given an AST, generate assembly code recursively
 
-static int genAST(struct ASTnode * n){
+int genAST(struct ASTnode * n){
   int leftreg, rightreg;
 
   // Get the left and right sub-tree values 
@@ -32,12 +32,20 @@ static int genAST(struct ASTnode * n){
   }
 }
 
-void generatecode(struct ASTnode *n){
-  int reg;
-
+void genpreamble(){
   cgpreamble();
-  reg = genAST(n);
-  cgprintint(reg); // print the register with the result as an int 
+}
+
+void genpostamble(){
   cgpostamble();
 }
+
+void genfreeregs(){
+  freeall_registers();
+}
+
+void genprintint(int reg){
+  cgprintint(reg);
+}
+
 
