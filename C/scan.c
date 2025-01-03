@@ -95,6 +95,10 @@ static int scanident(int c, char *buf, int lim){
 // Switch on the first letter so that we don't have to waste time strcomp()ing against all the keywords. 
 static int keyword(char *s) {
   switch(*s) {
+    case 'i':
+      if (!strcmp(s, "int"))
+        return (T_INT);
+      break;
     case 'p':
       if(!strcmp(s, "print"))
   return (T_PRINT);
@@ -135,6 +139,9 @@ int scan (struct token *t) {
     case ';':
       t->token = T_SEMI;
       break;
+    case '=':
+      t->token = T_EQUALS;
+      break; 
     default:
     // If its a digit, scan the literal integer value in 
 
@@ -151,13 +158,13 @@ int scan (struct token *t) {
           t-> token = tokentype;
           break;
         }
-        // Not a recognised keyword, so an error for now 
-        printf("Unrecognised symbol %s on line %d\n", Text, Line);
-        exit(1);
+        // Not a recognised keyword, so it must be an identifier 
+        t->token = T_IDENT;
+        break;
       }
 
-    printf("Unrecognised character %c on line %d\n",c,Line);
-    exit(1);
+    // The character isnt part of any recognised token, error 
+    fatalc("Unrecognised character",c);
   }
   // We have found a token! return 1 
   return (1); 

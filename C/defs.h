@@ -46,4 +46,4 @@ struct ASTnode {
 // Symbol table structure 
 struct symtable {
   char *name;               // Name of a symbol 
-}
+};
