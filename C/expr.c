@@ -77,7 +77,7 @@ struct ASTnode *binexpr(int ptp){ // binary expression
 
   // If we hit a semicolon, return just the left node 
   tokentype = Token.token;
-  if (tokentype == T_SEMI)
+  if (tokentype == T_SEMI || tokentype == T_RPAREN)
     return (left);
  
     printf("Current token: %d, intvalue :%d\n",tokentype,Token.intvalue);
@@ -91,12 +91,12 @@ struct ASTnode *binexpr(int ptp){ // binary expression
     right = binexpr(OpPrec[tokentype]);
 
     // Join that sub-tree with ours. Convert the token into an AST operation at the same time. 
-    left = mkastnode(arithop(tokentype), left, right, 0);
+    left = mkastnode(arithop(tokentype), left,NULL, right, 0);
 
     // Update the details of the current token.
     // If we hit a semicolon, return just the left node 
     tokentype = Token.token;
-    if (tokentype == T_SEMI)
+    if (tokentype == T_SEMI || tokentype == T_RPAREN)
       return (left);
   }
 

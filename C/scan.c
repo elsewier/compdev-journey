@@ -95,9 +95,15 @@ static int scanident(int c, char *buf, int lim){
 // Switch on the first letter so that we don't have to waste time strcomp()ing against all the keywords. 
 static int keyword(char *s) {
   switch(*s) {
+    case 'e':
+      if (!strcmp(s, "else"))
+  return (T_ELSE);
+    break; 
     case 'i':
+      if (!strcmp(s, "if"))
+  return (T_IF);
       if (!strcmp(s, "int"))
-        return (T_INT);
+  return (T_INT);
       break;
     case 'p':
       if(!strcmp(s, "print"))
@@ -125,22 +131,34 @@ int scan (struct token *t) {
       t->token = T_EOF;
       return (0);
     case '+':
-      t->token = T_PLUS;  // assigning the token structure 
+      t->token = T_PLUS;  
       break; 
     case '-':
-      t->token = T_MINUS; // assigning the token structure 
+      t->token = T_MINUS; 
       break; 
     case '*':
-      t->token = T_STAR;  // assigning the token structure 
+      t->token = T_STAR;  
       break; 
     case '/':
-      t->token = T_SLASH; // assigning the token structure 
+      t->token = T_SLASH; 
       break; 
     case ';':
       t->token = T_SEMI;
       break;
+    case '{':
+      t->token = T_LBRACE;
+      break; 
+    case '}':
+      t->token = T_RBRACE; 
+      break;
+    case '(':
+      t->token = T_LPAREN;
+      break; 
+    case ')':
+      t->token = T_RPAREN;
+      break;
     case '=':
-      if ((c = next()) == '='){
+      if ((c = next()) == '=') {
         t->token = T_EQ;
       } else {
         putback(c);
@@ -155,7 +173,7 @@ int scan (struct token *t) {
       }
       break; 
     case '<':
-      if ((c = next() == '=')){
+      if ((c = next()) == '='){
         t->token = T_LE;
       } else {
         putback(c);

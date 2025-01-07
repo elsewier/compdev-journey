@@ -40,7 +40,7 @@ static void scanfile(){
 // Open up the input file and call scanfile to scan the tokens in it. 
 
 void main(int argc, char *argv[]){
-  struct ASTnode *n;
+  struct ASTnode *tree;
   if (argc != 2)
     usage(argv[0]);
 
@@ -60,7 +60,8 @@ void main(int argc, char *argv[]){
   // scanfile();
   scan(&Token);                   // Get the first token from the input 
   genpreamble();                  // Output the preamble 
-  statements();                   // Parse the statements in the input 
+  tree = compound_statement();    // Parse the compound statement in the input 
+  genAST(tree, NOREG, 0);         // Generate the assembly code for it 
   genpostamble();                 // Output the postamble 
   fclose(Outfile);
   exit(0);
